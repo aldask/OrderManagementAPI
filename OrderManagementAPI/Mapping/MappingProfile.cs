@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using OrderManagementAPI.Models;
+using OrderManagementAPI.DTOs;
 
 namespace OrderManagementAPI.Mapping
 {
@@ -7,7 +8,9 @@ namespace OrderManagementAPI.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<Product, ProductReadDTO>()
+            CreateMap<Product, ProductReadDTO>();
+            CreateMap<ProductCreateDTO, Product>();
+
         }
     }
 }
