@@ -6,16 +6,10 @@ using OrderManagementAPI.Models;
 
 namespace OrderManagementAPI.Services
 {
-    public class ProductService
+    public class ProductService(AppDbContext context, IMapper mapper)
     {
-        private readonly AppDbContext _context;
-        private readonly IMapper _mapper;
-
-        public ProductService(AppDbContext context, IMapper mapper)
-        {
-            _context = context;
-            _mapper = mapper;
-        }
+        private readonly AppDbContext _context = context;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<List<ProductReadDTO>> GetAllProductsAsync(string? name = null)
         {
@@ -34,7 +28,7 @@ namespace OrderManagementAPI.Services
         public async Task<ProductReadDTO> GetProductByIDAsync(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            if (product is not null)
             {
                 throw new KeyNotFoundException($"Product with ID {id} not found.");
             }

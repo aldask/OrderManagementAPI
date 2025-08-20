@@ -6,13 +6,9 @@ namespace OrderManagementAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController(ProductService productService) : ControllerBase
     {
-        private readonly ProductService _productService;
-        public ProductsController(ProductService productService)
-        {
-            _productService = productService;
-        }
+        private readonly ProductService _productService = productService;
         
         [HttpGet]
         public async Task<ActionResult<List<ProductReadDTO>>> GetAllProducts([FromQuery] string? name)
