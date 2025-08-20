@@ -6,13 +6,9 @@ namespace OrderManagementAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OrdersController : ControllerBase
+    public class OrdersController(OrderService orderService) : ControllerBase
     {
-        private readonly OrderService _orderService;
-        public OrdersController(OrderService orderService)
-        {
-            _orderService = orderService;
-        }
+        private readonly OrderService _orderService = orderService;
 
         [HttpGet]
         public async Task<ActionResult<List<OrderReadDTO>>> GetAllOrders()
