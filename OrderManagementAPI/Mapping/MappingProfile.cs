@@ -12,7 +12,11 @@ namespace OrderManagementAPI.Mapping
             CreateMap<ProductCreateDTO, Product>();
 
             CreateMap<Order, OrderReadDTO>();
-            CreateMap<OrderItem, OrderItemReadDTO>();
+            CreateMap<OrderItem, OrderItemReadDTO>()
+                .ForMember(d => d.ProductName, opt => opt.MapFrom(src => src.Product.Name))
+                .ForMember(d => d.Price, opt => opt.MapFrom(src => src.Product.Price))
+                .ForMember(d => d.DiscountPercent, opt => opt.MapFrom(src => src.Product.DiscountPercent));
+
 
             CreateMap<OrderCreateDTO, Order>();
             CreateMap<OrderItemCreateDTO, OrderItem>();
