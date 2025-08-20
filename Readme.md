@@ -2,8 +2,6 @@
 
 A simple .NET RESTful API for managing products, orders, and invoices in a retail scenario.
 
----
-
 ## Functionalities Implemented (~8.5 hours)
 
 - **Products**
@@ -29,11 +27,7 @@ A simple .NET RESTful API for managing products, orders, and invoices in a retai
   - Unit tests with NUnit.
   - Swagger/OpenAPI documentation.
 
----
-
 ## Missing / To Be Included
-
----
 
 - Error handling and more complex validation
 - Pagination support
@@ -44,15 +38,11 @@ A simple .NET RESTful API for managing products, orders, and invoices in a retai
 - Monitoring and metrics via Prometheus
 - Various other enhancements & bug fixes
 
----
-
 ## Prerequisites
 
 - .NET 8 
 - PostgreSQL database
 - Visual Studio
-
----
 
 ## Setup / Run
 
@@ -64,15 +54,14 @@ A simple .NET RESTful API for managing products, orders, and invoices in a retai
 
 2. Configure PostgreSQL connection in appsettings.json:
 
-```bash
-"ConnectionStrings": {
-  "DefaultConnection": "Host=localhost;Database=OrderManagement;Username=postgres;Password=yourpassword"
-}
-```
+   ```bash
+   "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Database=OrderManagement;Username=postgres;Password=yourpassword"}
+   ```
 
 3. Build and run:
 
-```bash
-dotnet build
-dotnet run
-```
+   ```bash
+   dotnet build
+   dotnet run
+   ```
