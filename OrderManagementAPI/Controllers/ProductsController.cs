@@ -41,5 +41,23 @@ namespace OrderManagementAPI.Controllers
             var createdProduct = await _productService.CreateProductAsync(productCreateDTO);
             return CreatedAtAction(nameof(GetProductByID), new { id = createdProduct.Id }, createdProduct);
         }
+
+        [HttpPut("{id}/discount")]
+        public async Task<ActionResult<ProductReadDTO>> UpdateProductDiscount(int id, [FromBody] ProductDiscountDTO productDiscountDTO)
+        {
+            try
+            {
+                var updatedProduct = await _productService.UpdateProductDiscountAsync(id, productDiscountDTO);
+                return Ok(updatedProduct);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

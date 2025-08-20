@@ -28,7 +28,7 @@ namespace OrderManagementAPI.Services
         public async Task<ProductReadDTO> GetProductByIDAsync(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product is not null)
+            if (product is null)
             {
                 throw new KeyNotFoundException($"Product with ID {id} not found.");
             }
@@ -42,5 +42,25 @@ namespace OrderManagementAPI.Services
             await _context.SaveChangesAsync();
             return _mapper.Map<ProductReadDTO>(product);
         }
+
+        public async Task<ProductReadDTO> UpdateProductDiscountAsync(int id, ProductDiscountDTO productDiscountDTO)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product is null)
+                throw new KeyNotFoundException($"Product with ID {id} not found.");
+
+            if (productDiscountDTO.DiscountPercent < 0 || productDiscountDTO.DiscountPercent > 100)
+                throw new ArgumentOutOfRangeException(nameof(productDiscountDTO.DiscountPercent), "Discount percent must be between 0 and 100.");
+
+            if (productDiscountDTO.MinQuantity < 0)
+                throw new ArgumentOutOfRangeException(nameof(productDiscountDTO.MinQuantity), "Minimum quantity cannot be negative.");
+
+            _mapper.Map(productDiscountDTO, product);
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<ProductReadDTO>(product);
+        }
+
     }
 }
