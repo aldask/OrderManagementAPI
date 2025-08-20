@@ -15,9 +15,9 @@ namespace OrderManagementAPI.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<List<ProductReadDTO>>> GetAllProducts()
+        public async Task<ActionResult<List<ProductReadDTO>>> GetAllProducts([FromQuery] string? name)
         {
-            var products = await _productService.GetAllProductsAsync();
+            var products = await _productService.GetAllProductsAsync(name);
             return Ok(products);
         }
         

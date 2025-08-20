@@ -17,9 +17,17 @@ namespace OrderManagementAPI.Services
             _mapper = mapper;
         }
 
-        public async Task<List<ProductReadDTO>> GetAllProductsAsync()
+        public async Task<List<ProductReadDTO>> GetAllProductsAsync(string? name = null)
         {
-            var products = await _context.Products.ToListAsync();
+            var query = _context.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(p => p.Name != null && p.Name.Contains(name));
+            }
+
+            var products = await query.ToListAsync();
+
             return _mapper.Map<List<ProductReadDTO>>(products);
         }
 
