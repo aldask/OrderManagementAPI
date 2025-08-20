@@ -1,15 +1,15 @@
 # OrderManagementAPI
 
-A simple .NET 8 RESTful API for managing products, orders, and invoices in a retail scenario.
+A simple .NET RESTful API for managing products, orders, and invoices in a retail scenario.
 
 ---
 
-## Functionalities Implemented (~ hours)
+## Functionalities Implemented (~8.5 hours)
 
 - **Products**
   - Create new products with `name` and `price`. Also `discount` and `minQuantity` can be set.
   - Retrieve a list of products, with optional search by name.
-  - Apply discounts to products (`percentage` and `minimum quantity`).
+  - Apply or update discounts to products (`percentage` and `minimum quantity`).
 
 - **Orders**
   - Create new orders with multiple products (quantity specified per product).
@@ -26,7 +26,7 @@ A simple .NET 8 RESTful API for managing products, orders, and invoices in a ret
   - Services for product, order, and invoice management.
   - Dependency Injection for services.
   - AutoMapper included for DTO mapping.
-  - Unit test scaffolding with NUnit.
+  - Unit tests with NUnit.
   - Swagger/OpenAPI documentation.
 
 ---
@@ -35,11 +35,22 @@ A simple .NET 8 RESTful API for managing products, orders, and invoices in a ret
 
 ---
 
+- Error handling and more complex validation
+- Pagination support
+- Containerization via Docker Compose
+- Continuous Integration via GitHub Actions
+- Logging via Serilog
+- GraphQL endpoint for creating products
+- Monitoring and metrics via Prometheus
+- Various other enhancements & bug fixes
+
+---
+
 ## Prerequisites
 
 - .NET 8 
 - PostgreSQL database
-- (Optional) Docker for containerization
+- Visual Studio
 
 ---
 
@@ -47,10 +58,9 @@ A simple .NET 8 RESTful API for managing products, orders, and invoices in a ret
 
 1. Clone the repository:
 
-```bash
-git clone https://github.com/aldask/OrderManagementAPI.git
-cd OrderManagementAPI
-```bash
+   ```bash
+   git clone hhttps://github.com/aldask/OrderManagementAPI.git
+   ```
 
 2. Configure PostgreSQL connection in appsettings.json:
 
@@ -58,11 +68,11 @@ cd OrderManagementAPI
 "ConnectionStrings": {
   "DefaultConnection": "Host=localhost;Database=OrderManagement;Username=postgres;Password=yourpassword"
 }
-```bash
+```
 
 3. Build and run:
 
 ```bash
 dotnet build
 dotnet run
-```bash
+```
