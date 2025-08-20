@@ -12,7 +12,10 @@ namespace OrderManagementAPI.Mapping
             CreateMap<ProductCreateDTO, Product>();
 
             CreateMap<Order, OrderReadDTO>();
+            CreateMap<OrderItem, OrderItemReadDTO>();
+
             CreateMap<OrderCreateDTO, Order>();
+            CreateMap<OrderItemCreateDTO, OrderItem>();
         }
     }
 }
