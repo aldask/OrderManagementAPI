@@ -16,6 +16,8 @@ namespace OrderManagementAPI.Mapping
 
             CreateMap<OrderCreateDTO, Order>();
             CreateMap<OrderItemCreateDTO, OrderItem>();
+
+            CreateMap<ProductDiscountDTO, Product>();
         }
     }
 }
