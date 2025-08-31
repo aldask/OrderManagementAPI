@@ -2,6 +2,7 @@
 using OrderManagementAPI.Data;
 using OrderManagementAPI.DTOs;
 using OrderManagementAPI.Models;
+using Serilog;
 
 namespace OrderManagementAPI.Services
 {
@@ -11,19 +12,25 @@ namespace OrderManagementAPI.Services
 
         public async Task<OrderInvoiceReadDTO> GetInvoiceAsync(int orderId)
         {
+            Log.Information("Generating invoice for Order ID: {OrderId}", orderId);
+
             var order = await _context.Orders
                 .Include(o => o.Items!)
                 .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
             if (order == null)
+            {
+                Log.Warning("Order with ID {OrderId} not found.", orderId);
                 throw new KeyNotFoundException($"Order with ID {orderId} not found.");
+            }
 
             var invoiceItems = new List<OrderItemInvoiceReadDTO>();
             decimal totalAmount = 0;
 
             foreach (var item in order.Items!)
             {
+
                 var product = item.Product;
                 if (product == null) continue;
 
@@ -41,6 +48,8 @@ namespace OrderManagementAPI.Services
 
                 totalAmount += amount;
             }
+
+            Log.Information("Invoice generated for Order {OrderId} with total {Total}", order.Id, totalAmount);
 
             return new OrderInvoiceReadDTO
             {
@@ -82,6 +91,8 @@ namespace OrderManagementAPI.Services
                 reportDict[product.Id].OrdersCount++;
                 reportDict[product.Id].TotalAmount += amount;
             }
+
+            Log.Information("Report generated with {Count} discounted products", reportDict.Count);
 
             return reportDict.Values.ToList();
         }

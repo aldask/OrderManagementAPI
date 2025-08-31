@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OrderManagementAPI.Data;
 using OrderManagementAPI.DTOs;
 using OrderManagementAPI.Models;
+using Serilog;
 
 namespace OrderManagementAPI.Services
 {
@@ -13,23 +14,32 @@ namespace OrderManagementAPI.Services
 
         public async Task<List<OrderReadDTO>> GetAllOrdersAsync()
         {
+            Log.Information("Fetching all orders from the DB.");
+            
             var orders = await _context.Orders
                 .Include(o => o.Items!)
                 .ThenInclude(oi => oi.Product)
                 .ToListAsync();
+
+            Log.Information("Retrieved {Count} orders", orders.Count);
 
             return _mapper.Map<List<OrderReadDTO>>(orders);
         }
 
         public async Task<OrderReadDTO> GetOrderByIDAsync(int id)
         {
+            Log.Information("Fetching order with ID {Id} from the DB.", id);
+
             var order = await _context.Orders
                 .Include(o => o.Items!)
                 .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(o => o.Id == id);
 
             if (order == null)
+            {
+                Log.Warning("Order with ID {Id} not found.", id);
                 throw new KeyNotFoundException($"Order with ID {id} not found.");
+            }
 
             var orderDTO = _mapper.Map<OrderReadDTO>(order);
 
@@ -51,14 +61,20 @@ namespace OrderManagementAPI.Services
                 }
             }
 
+            Log.Information("Retrieved order with ID {Id}", id);
+            
             return orderDTO;
         }
 
         public async Task<OrderReadDTO> CreateOrderAsync(OrderCreateDTO orderCreateDTO)
         {
+            Log.Information("Creating a new order.");
+
             var order = _mapper.Map<Order>(orderCreateDTO);
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
+
+            Log.Information("Order {OrderId} created", order.Id);
 
             return _mapper.Map<OrderReadDTO>(order);
         }

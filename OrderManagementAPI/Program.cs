@@ -2,8 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using OrderManagementAPI.Data;
 using OrderManagementAPI.Services;
 using System.Reflection;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .WriteTo.Console()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
